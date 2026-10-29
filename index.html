@@ -3,76 +3,102 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Fitness Level Up</title>
+<title>Hunter Protocol – RPG ออกกำลังกาย</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
-  <section class="hero">
-    <div class="ring" aria-hidden="true">
-      <svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="52" fill="none" stroke-width="12"/><circle class="fill" id="ringFill" cx="60" cy="60" r="52" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg>
-      <div class="lv"><small>เลเวล</small><b id="lvNum">1</b></div>
-    </div>
-    <div class="who">
-      <h1><span id="name">นักสู้</span><button class="edit-name" id="editName" aria-label="แก้ชื่อ">แก้ชื่อ</button></h1>
-      <span class="rank" id="rank">มือใหม่</span>
-      <div class="xpline" id="xpLine">0 / 100 XP ถึงเลเวลถัดไป</div>
-    </div>
-  </section>
 
-  <div class="stats">
-    <div class="stat"><b id="sXp">0</b><span>XP สะสม</span></div>
-    <div class="stat"><b id="sStreak">0</b><span>วันติดกัน 🔥</span></div>
-    <div class="stat"><b id="sCount">0</b><span>ครั้งที่ออกกำลัง</span></div>
-  </div>
+  <!-- STATUS -->
+  <main id="tab-status">
+    <section class="win hero">
+      <header class="win-h">◆ หน้าต่างสถานะ</header>
+      <div class="hero-grid">
+        <div class="rank" id="rankBox"><span id="rankLetter">E</span><small>แรงค์</small></div>
+        <div>
+          <h1><span id="name">ฮันเตอร์</span> <button class="link" id="editName">แก้ชื่อ</button></h1>
+          <p class="title-eq" id="titleEq">ยังไม่มีฉายา</p>
+          <div class="lvline"><span>เลเวล</span><b id="lv">1</b></div>
+        </div>
+      </div>
+      <div class="xpbar" aria-hidden="true"><i id="xpFill"></i></div>
+      <p class="xptext" id="xpText">0 / 100 XP</p>
+    </section>
 
-  <!-- TODAY -->
-  <main id="tab-today">
-    <h2>ภารกิจวันนี้</h2>
-    <p class="sub">ทำครบทุกข้อรับโบนัส +50 XP ภารกิจรีเซ็ตทุกเที่ยงคืน</p>
-    <ul class="quests" id="quests"></ul>
-    <p class="bonus" id="bonus"></p>
+    <section class="win">
+      <header class="win-h">◆ ค่าสถานะ <span class="pts" id="ptsBox"></span></header>
+      <div class="stats" id="stats"></div>
+      <div class="meta">
+        <div><b id="power">40</b><span>พลังรวม</span></div>
+        <div><b id="streak">0</b><span>วันติดกัน</span></div>
+        <div><b id="sessions">0</b><span>ครั้งที่ฝึก</span></div>
+      </div>
+    </section>
 
-    <h2>บันทึกการออกกำลังกาย</h2>
-    <div class="form">
-      <div class="chips" id="chips" role="group" aria-label="ประเภทการออกกำลังกาย"></div>
+    <h2>XP 7 วันล่าสุด</h2>
+    <div class="chart" id="chart"></div>
+    <h2>บันทึกล่าสุด</h2>
+    <ul class="log" id="log"></ul>
+  </main>
+
+  <!-- QUESTS -->
+  <main id="tab-quest" hidden>
+    <section class="win">
+      <header class="win-h">◆ ภารกิจประจำวัน</header>
+      <p class="note" id="questNote"></p>
+      <ul class="quests" id="quests"></ul>
+      <button class="btn gold" id="claimBtn" disabled>ทำภารกิจให้ครบเพื่อรับรางวัล</button>
+    </section>
+
+    <section class="win">
+      <header class="win-h">◆ บันทึกการฝึกเพิ่มเติม</header>
+      <div class="chips" id="chips" role="group" aria-label="ประเภทการฝึก"></div>
       <div class="row">
         <label>จำนวน <span id="unit">(ครั้ง)</span>
           <input id="amount" type="number" inputmode="numeric" min="1" placeholder="เช่น 20">
         </label>
         <button class="btn" id="addBtn" disabled>บันทึก</button>
       </div>
-      <div class="preview" id="preview">เลือกท่าแล้วกรอกจำนวนเพื่อดู XP ที่จะได้</div>
-    </div>
+      <p class="note" id="preview">เลือกท่าแล้วกรอกจำนวนเพื่อดู XP ที่จะได้</p>
+    </section>
   </main>
 
-  <!-- HISTORY -->
-  <main id="tab-history" hidden>
-    <h2>XP 7 วันล่าสุด</h2>
-    <div class="chart" id="chart"></div>
-    <h2>ประวัติล่าสุด</h2>
-    <ul class="log" id="log"></ul>
+  <!-- BOSS -->
+  <main id="tab-boss" hidden>
+    <section class="win boss">
+      <header class="win-h">◆ บอสประจำสัปดาห์</header>
+      <div class="boss-ico" id="bossIco">🛋️</div>
+      <h2 class="boss-name" id="bossName"></h2>
+      <p class="note center" id="bossDesc"></p>
+      <div class="hpbar" aria-hidden="true"><i id="hpFill"></i></div>
+      <p class="hptext" id="hpText"></p>
+      <p class="note center">ทุก XP ที่ได้จากการฝึกในสัปดาห์นี้คือดาเมจใส่บอส บอสตัวใหม่มาทุกวันจันทร์</p>
+      <button class="btn gold" id="bossBtn" disabled></button>
+    </section>
+    <h2>บอสที่ปราบได้</h2>
+    <ul class="log" id="bossLog"></ul>
   </main>
 
-  <!-- BADGES -->
-  <main id="tab-badges" hidden>
-    <h2>ความสำเร็จ</h2>
-    <p class="sub" id="badgeCount"></p>
-    <div class="badges" id="badges"></div>
+  <!-- TITLES -->
+  <main id="tab-titles" hidden>
+    <h2>ฉายา</h2>
+    <p class="note" id="titleCount"></p>
+    <div class="titles" id="titles"></div>
     <div class="foot"><button class="btn ghost" id="resetBtn">เริ่มใหม่ทั้งหมด</button></div>
   </main>
 </div>
 
 <nav class="tabs" role="tablist">
-  <button role="tab" aria-selected="true" data-tab="today"><span>⚡</span>วันนี้</button>
-  <button role="tab" aria-selected="false" data-tab="history"><span>📈</span>ประวัติ</button>
-  <button role="tab" aria-selected="false" data-tab="badges"><span>🏅</span>ความสำเร็จ</button>
+  <button role="tab" data-tab="status" aria-selected="true"><span>📊</span>สถานะ</button>
+  <button role="tab" data-tab="quest" aria-selected="false"><span>📜</span>ภารกิจ</button>
+  <button role="tab" data-tab="boss" aria-selected="false"><span>⚔️</span>บอส</button>
+  <button role="tab" data-tab="titles" aria-selected="false"><span>🏷️</span>ฉายา</button>
 </nav>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button id="undoBtn" hidden>เลิกทำ</button></div>
 <div class="modal" id="modal" hidden></div>
 
 <script src="app.js"></script>
